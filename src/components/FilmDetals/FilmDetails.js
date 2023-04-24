@@ -52,7 +52,7 @@ const FilmDetails = () => {
                             </div>
                             <div className={'line'}></div>
                             <div className={'about'}>
-                                <h4> Жанры: </h4> <h5 > {movie.production_countries && movie.production_countries.map((country) => country.name).join(", ")}</h5>
+                                <h4> Страны: </h4> <h5 > {movie.production_countries && movie.production_countries.map((country) => country.name).join(", ")}</h5>
                             </div>
                             <div className={'line'}></div>
                             <div className={'about'}>
