@@ -14,7 +14,8 @@ h4 {
     border-radius: 15px;
 }
 .line {
-    background-color: black;
+    background-color: #7cffcb;
+    background-image: linear-gradient(315deg, #7cffcb 0%, #74f2ce 74%);
     width: 100%;
     height: 1px;
 }

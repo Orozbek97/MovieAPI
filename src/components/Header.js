@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-
 const Header = () => {
+    const [searchText, setSearchText] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleSearch = async () => {
+        try {
+            const response = await axios.get(
+                `https://api.themoviedb.org/3/search/multi?api_key=5f5c3fe7d8050abeb782fc995a4611da&language=ru&query=${searchText}&include_adult=false`
+            );
+            setSearchResults(response.data.results);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setSearchText(event.target.value);
+    };
+
     return (
         <div className={"bg-dark"}>
             <div className={"container-xl"}>
@@ -24,24 +42,36 @@ const Header = () => {
                     <div className={'searchPart'}>
                         <InputGroup className="mb-3">
                             <Form.Control
-                                aria-label="Example text with button addon"
-                                aria-describedby="basic-addon1"
+                                value={searchText}
+                                onChange={handleInputChange}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
+                                        handleSearch();
+                                    }
+                                }}
                             />
-                            <Button variant="primary" id="button-addon1">
+
+                            <Button variant="primary"  type='submit' onClick={handleSearch}>
                                 Искать
                             </Button>
                         </InputGroup>
                     </div>
                 </div>
             </div>
-          <div className={'container-xxl pb-2'}>
-              <div className={'nav-link  d-flex gap-3 text-primary align-items-center'}>
-                  <a href="#">  В Тренде </a>
-                  <a href="#"> Популярные </a>
-                  <a href="#"> Сейчас смотрят.. </a>
-              </div>
-          </div>
-
+            {/*<div className={'container-xxl pb-2'}>*/}
+            {/*    <div className={'nav-link  d-flex gap-3 text-primary align-items-center'}>*/}
+            {/*        <a href="#">  В Тренде </a>*/}
+            {/*        <a href="#"> Популярные </a>*/}
+            {/*        <a href="#"> Сейчас смотрят.. </a>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            <div>
+                <ul>
+                    {searchResults.map((result) => (
+                        <h6 className={'text-white'} key={result.id}>{result.title }</h6>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };
